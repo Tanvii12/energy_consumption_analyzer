@@ -1,44 +1,54 @@
 import streamlit as st
+import matplotlib.pyplot as plt
+import seaborn as sns
 import pandas as pd
 import numpy as np
 import joblib
-import matplotlib.pyplot as plt
-import seaborn as sns
 
 st.set_page_config(
-    page_title="Energy Consumption Analyzer", layout="wide"
+    page_title="Energy Consumption Analyzer",
+    layout="wide"
 )
 
-df=pd.read_csv("Steel_industry_data.csv")
-randomforest=joblib.load("model2.pkl")
-scaler=joblib.load("scaler.pkl")
-encoderweekdays=joblib.load("encoder_day.pkl")
-encoderload=joblib.load("encoder_load.pkl")
-featureorder=joblib.load("feature_columns.pkl")
-resultsmetrics=joblib.load("results.pkl").T
+rnadomforest=joblib.load("model2.pkl")           
+linearegression= joblib.load("model1.pkl")           
+xgboost=joblib.load("model3.pkl")           
+scaler=joblib.load("scaler.pkl")           
+encoderdayforweekdays=joblib.load("encoder_day.pkl")      
+encoderloadtype=joblib.load("encoder_load.pkl")    
+featurecolumnsorder=joblib.load("feature_columns.pkl") 
+results_df_metricscomparison=joblib.load("results.pkl").T     
 
-st.sidebar.title("Energy analyzer")
-page=st.sidebar.radio("Go to",["Home","Data insights","Model comparison","Predictions","Cost optimization","Suggestions"])
+df=pd.read_csv("Steel_industry_data.csv")
+st.sidebar.title("Energy Analyzer")
+page=st.sidebar.radio("Go to",["Home","Data Insights","Model Comparison","Predictions","Cost Optimization","Suggestions"])
 
 #homepage
 if page=="Home":
-    st.title("Energy Consumption Analyzer")
-    st.subheader("Dasboard for Steel Industry Energy")
-    st.markdown(""" This dashboard analyses energy consumption in a steel manufacturing plant using Machine Learning. We have built and compared the models to predict electricity usage,estimate costs, and provide personalized suggestions.""" )
+
+    st.title(" Energy Consumption Analyzer")
+    st.subheader("Dashboard for Steel Industry Energy Management")
+
+    st.markdown("""
+    This dashboard analyzes energy consumption patterns in a steel manufacturing plant
+    using Machine Learning. We have built and compared three models to predict electricity
+    usage, estimate costs, and provide personalized suggestions.
+    """)
+
     st.subheader("Dataset Overview")
     c1,c2,c3,c4=st.columns(4)
-    c1.metric("Total records","35040")
+    c1.metric("Total Records","35,040")
     c2.metric("Data Year","2018")
-    c3.metric("Recording Interval","Every 15 min")
-    c4.metric("Industry","Steel plant")
+    c3.metric("Recording Interval","Every 15 mins")
+    c4.metric("Industry","Steel Plant")
 
     st.subheader("Model Summary")
     c1,c2,c3=st.columns(3)
     c1.metric("Models Trained","3")
     c2.metric("Best Model","Random Forest")
-    c3.metric("Best R² score","0.9994")
+    c3.metric("Best R² Score","0.9994")
 
-    st.subheader("Tools & Technologies used:")
+    st.subheader("Tools & Technologies used: ")
     c1,c2,c3,c4=st.columns(4)
     c1.info("Python")
     c2.info("Streamlit")
@@ -47,7 +57,7 @@ if page=="Home":
 
     st.subheader("Project Objectives")
     st.write("Predict electricity consumption using ML models")
-    st.write("Compare model performances using MAE,RMSE and R²")
+    st.write("Compare model performances using MAE, RMSE and R²")
     st.write("Estimate energy costs based on predictions")
     st.write("Provide suggestions to reduce energy waste")
     st.write("Deploy on cloud for real-world accessibility")
